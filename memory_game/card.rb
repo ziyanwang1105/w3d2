@@ -21,7 +21,10 @@ class Card
     def ==(card)
         self.face_val == card.face_val
     end
-
+  
+    def to_s
+      self.face_val 
+    end
 
 
 end

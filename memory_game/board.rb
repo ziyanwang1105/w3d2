@@ -3,8 +3,8 @@ require_relative './card.rb'
 class Board
 
     def initialize(size=4)
-
-        if size < 8
+      
+        if size < 8 && size.even?
             @size = size
         else
             raise 'board size too big'
@@ -19,6 +19,8 @@ class Board
         @grid[row][col]
 
     end
+
+    
 
     def []=(position, val)
         row, col = position
@@ -43,11 +45,13 @@ class Board
         alphabet = ('a'..'z').to_a
 
         until @grid.all?{|row| row.all?{|ele| ele.is_a?(Card)}}
-            card = Card.new(alphabet[rand(0...26)])
+            face_val = (alphabet[rand(0...26)])
 
-            unless @grid.any?{|row| row.any?{|ele| ele == card}}
+
+            unless @grid.any?{|row| row.any?{|ele| ele.to_s == face_val}}
                 positions = self.empty_grids.sample(2)
-                positions.each{|position| self[position] = card}
+                positions.each{|position| self[position] = Card.new(face_val)}
+                
             end
         end
     end
@@ -66,6 +70,10 @@ class Board
 
         end
 
+    end
+
+    def reveal(position)
+        self[position].reveal unless self[position].face_up
     end
 
     def won?
