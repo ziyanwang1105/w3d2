@@ -5,25 +5,25 @@ class Card
     def initialize(face_val)
 
         @face_val = face_val
-        @face_up = false
+        @face_up = 'down'
 
     end
 
     def hide
-        @face_up = false
+        @face_up = 'down'
     end
 
     def reveal
-        @face_up = true
-        @face_val
+        @face_up = 'up'
+        return self
     end
 
     def ==(card)
         self.face_val == card.face_val
     end
-  
+
     def to_s
-      self.face_val 
+      self.face_val
     end
 
 

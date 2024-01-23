@@ -3,7 +3,7 @@ require_relative './card.rb'
 class Board
 
     def initialize(size=4)
-      
+
         if size < 8 && size.even?
             @size = size
         else
@@ -20,7 +20,7 @@ class Board
 
     end
 
-    
+
 
     def []=(position, val)
         row, col = position
@@ -51,7 +51,7 @@ class Board
             unless @grid.any?{|row| row.any?{|ele| ele.to_s == face_val}}
                 positions = self.empty_grids.sample(2)
                 positions.each{|position| self[position] = Card.new(face_val)}
-                
+
             end
         end
     end
@@ -60,7 +60,7 @@ class Board
         @grid.each do |row|
             print_row = ''
             row.each do |card|
-                if card.face_up
+                if card.face_up == 'up'
                     print_row += card.face_val
                 else
                     print_row += ' '
@@ -73,11 +73,25 @@ class Board
     end
 
     def reveal(position)
-        self[position].reveal unless self[position].face_up
+        return self[position].reveal unless self[position].face_up == 'up'
     end
 
     def won?
-        @grid.all?{|row| row.all?{|ele| ele.face_up}}
+        @grid.all?{|row| row.all?{|ele| ele.face_up == 'up'}}
     end
+
+    def valid_position?(position)
+
+        position.all?{|val| val >= 0 && val < @size} && position.length == 2
+    end
+
+end
+
+
+if __FILE__ == $PROGRAM_NAME
+
+    a = Board.new(4)
+    a.populate
+    a.reveal([0,0])
 
 end
