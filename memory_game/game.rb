@@ -1,5 +1,6 @@
 require_relative './board.rb'
-require 'byebug'
+require_relative './human_player.rb'
+
 
 class Game
 
@@ -10,6 +11,7 @@ class Game
         @board = Board.new(@size)
         @board.populate
         @previously_guessed = Card.new('1')
+        @player = HumanPlayer.new
 
     end
 
@@ -22,7 +24,7 @@ class Game
             @board.render
             puts "Please enter a position like 0 0 to reveal card"
 
-            position = gets.chomp.split(" ")
+            position = @player.prompt
             if position.all?{|ele| ele.to_i.to_s == ele}
                 position.map!{|ele| ele.to_i}
                 if @board.valid_position?(position)
